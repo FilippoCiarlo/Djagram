@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Signup{% endblock title %}
+
+{% block content %}
+    {% if form.errors %}
+        <div class="alert alert-warning" role="alert">
+            <center>
+                There was an error with your form, try again.                
+            </center>
+        </div>
+    {% endif %}
+    
+    <h2>Signup</h2>
+    <form action="{% url 'signup' %}" method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <br/>
+        <button class="btn btn-success">Signup</button>
+    </form>
+    
+    <center>
+        <em>
+        Already have an account? 
+        <a class="nav-link" href="{% url 'login' %}"><strong>Login<strong></a>
+        </em>
+    </center>
+{% endblock %}

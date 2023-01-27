@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Home{% endblock title %} 
+
+{% block content %}
+ 	<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+	
+	<center>
+		<h1>Take a look to the latest Posts</h2>
+
+		{% if user.is_authenticated %}
+			Take a look to your friends' <a href="{% url 'post_list' %}"><strong>Recent Posts<strong></a> 
+		{% else %}
+			<a href="{% url 'login' %}"><strong>Login<strong></a> 
+			or 
+			<a href="{% url 'signup' %}"><strong>Signup<strong></a>
+		{% endif %}
+	</center>
+
+    <!-- Users Posts -->
+    <hr/>
+    {% for post in posts %}
+        <a href="{{ post.get_absolute_url }}"> 
+            <img src="{{ post.image.url }}" width=200 height=200>
+        </a>
+        {% empty %}
+            <center><h2>The users haven't posted anything yet.</h2></center>
+    {% endfor %}
+    <!---------------->
+
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ user_profile }} - Profile{% endblock title %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+    <div class="media">
+        <center>
+
+        <!-- User Info -->
+        <div class= "media-body">
+            <img class="rounded-circle float-left" src="{{ user_profile.profile.image.url }}" width=100 height=100>
+            <h2 class="account-heading">@{{ user_profile.username }}</h2>
+            <p class="text-secondary">{{ user_profile.email }}</p>
+            <p>{{ user_profile.profile.bio }}</p>
+        </div>
+        <!--------------->
+
+        <!-- Edit Button -->
+        {% if user_profile.id == user.id %}
+            <a class="btn btn-primary" href="{% url 'edit_profile' %}" role="button" value="Edit Profile">Edit Profile</a>
+        {% endif %}
+        <!----------------->
+
+        <!-- Follow System -->
+        {% if user_profile.id != user.id %}
+            <form action="{% url 'follow' username=user_profile.username %}" method="POST">
+                {% csrf_token %}
+                {% if user_profile in user.profile.follows.all %}
+                    <button type="submit" class="btn btn-danger btn-sm" >Unfollow</button>
+                {% else %}
+                    <button type="submit" class="btn btn-primary btn-sm">Follow</button> 
+                {% endif %}
+            </form>
+        {% endif %}
+        <!------------------->
+
+        </center>
+    </div>
+
+    <!-- User Posts -->
+    <hr/>
+    {% for post in posts %}
+        <a href="{{ post.get_absolute_url }}"> 
+            <img src="{{ post.image.url }}" width=400 height=400>
+        </a>
+        {% empty %}
+            <center><h2>{{ user_profile }} hasn't posted anything yet.</h2></center>
+    {% endfor %}
+    <!---------------->
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Search{% endblock title %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+    <h2>Search Results</h2>
+    {% if user.is_authenticated %}
+        <h3>Users</h3>
+        {% for user in users %}
+            <img class="rounded-circle" src="{{ user.profile.image.url }}" width=20 height=20>
+            <a href="{% url 'profile' username=user.username %}"><strong>@{{ user.username }}</strong></a>
+            <tab>&nbsp</tab>
+            {% empty %}
+                <center><small>No Users found.</small></center>
+        {% endfor %}
+        <hr/>
+
+        <h3>Tags</h3>
+        {% for tag in tags %}
+            <a href="{% url 'post_list_by_tag' tag.slug %}">
+                <strong><em>#{{ tag.name }}</em></strong>
+            </a>
+            <tab>&nbsp</tab>
+            {% empty %}
+                <center><small>No Tags found.</small></center>
+        {% endfor %}
+        <hr/>
+    {% endif %}
+
+    <h3>Posts</h3>
+    {% for post in posts %}
+        <a href="{{ post.get_absolute_url }}"> 
+            <img src="{{ post.image.url }}" width=400 height=400>
+        </a>
+        {% empty %}
+            <center><small>No Posts found.</small></center>
+    {% endfor %}
+
+{% endblock content %}
+

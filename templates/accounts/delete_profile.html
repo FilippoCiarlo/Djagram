@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Account{% endblock title %}
+
+{% block content %}
+    <h2>Delete Account</h2>
+    <br/>
+    <form action="{% url 'delete_profile' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <center>
+            <h4>Are you sure you want</h4>
+            <h4>to Delete this Account?</h4>
+            <br/>
+            <a href="{% url 'profile' username=user.username %}"><h4>@{{ user.username }}</h4></a>
+            <br/>
+            <button class="btn btn-danger btn-sm">Delete Account</button>
+        </center>
+    </form>
+    <br/>
+    <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-arrow-left" role="button">Go Back</a>
+{% endblock %}

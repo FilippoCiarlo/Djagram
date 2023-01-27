@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Post{% endblock title %}
+
+{% block content %}
+    <h2>Delete Post</h2>
+
+    <center><small>click on the image to get back</small></center>
+    <img class="rounded-circle" src="{{ post.user.profile.image.url }}" width=20 height=20>
+    <a href="{% url 'profile' username=post.user %}"><strong>@{{ post.user }}</strong></a>
+
+    <a href="{{ post.get_absolute_url }}"> 
+        <img src="{{ post.image.url }}" width=400 height=400>
+    </a>
+    
+    <p>
+        <em>{{ post.created }}</em>
+        <br/>
+
+        <!-- Tags -->
+        {% for tag in post.tags.all %}
+            <a href="{% url 'post_list_by_tag' tag_slug=tag.slug %}">
+                <small><em>#{{ tag.name }}</em></small>
+            </a>
+            {% if not forloop.last %}<tab>&nbsp;</tab>{% endif %}
+        {% endfor %}
+        <br/>
+        <!---------->
+
+        <strong>{{ post.user }}</strong>: {{ post.description }} 
+        <br/>
+    </p>
+
+    <form action="{% url 'post_delete' id=post.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <center><h5>Are you sure you want to Delete this Post?</h5></center>
+        <center><button class="btn btn-danger">Delete</button></center>
+    </form>
+{% endblock %}

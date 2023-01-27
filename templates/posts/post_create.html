@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}New Post{% endblock title %}
+
+{% block content %}
+    <h2>Create a new Post</h2>
+    <form action="{% url 'new_post' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <r>
+            <strong>Add an Image to start posting something</strong><br/>
+                {{ form.image }}
+        </r>
+        <br/><br/>
+        <r>   
+            <strong>Add here a description to your post</strong><br/>
+            {{ form.description }}
+        </r>
+        <br/><br/>
+        <r>
+            <strong>Add here a comma-separated list of tags</strong><br/>
+            <small><em>For a good-formatting avoid to insert tags that start with '#'</em></small><br/>
+            Your tags {{ form.tags }}
+        </r>
+        <button class="btn btn-success">Post</button>
+    </form>
+{% endblock %}

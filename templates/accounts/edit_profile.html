@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ user }} Profile{% endblock title %}
+
+{% block content %}
+	<div class="media">
+		<center>
+		<div class= "media-body">
+			<img class="rounded-circle float-left" src="{{ user.profile.image.url }}" width=100 height=100>
+			<h2 class="account-heading">@{{ user.username }}</h2>
+			<p class="text-secondary">{{ user.email }}</p>
+		</div>
+		</center>
+	</div>
+
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4">Profile Info</legend>
+			{{ user_form|crispy }}
+			{{ profile_form|crispy }}
+	</fieldset>
+
+	<div class="form-group">
+		<a href="{% url 'profile' username=user.username %}" class="btn btn-primary" role="button">Go Back</a>
+		
+		<button class="btn btn-success float-end" type="submit">Update</buton>
+	</div>
+
+	<hr/>
+	<center>
+		<strong>Danger Zone</strong><br/><br/>
+   		<a href="{% url 'delete_profile' %}" class="btn btn-danger btn-sm" role="button">Delete Account</a>
+   	</center>
+{% endblock content %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Post{% endblock title %}
+
+{% block content %}
+    <h2>Edit Post</h2>
+
+    <center><small>click on the image to get back</small></center>
+
+    <img class="rounded-circle" src="{{ post.user.profile.image.url }}" width=20 height=20>
+    <a href="{% url 'profile' username=post.user %}"><strong>@{{ post.user }}</strong></a>
+    <form action="{% url 'post_update' id=post.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <r>
+            <a href="{{ post.get_absolute_url }}"> 
+                <img src="{{ post.image.url }}" width=400 height=400>
+            </a>
+            {{ form.image }}
+        </r>
+        <br/><br/>
+        <r>   
+            <strong>Your Post Description</strong><br/>
+            {{ form.description }}
+        </r>
+        <br/><br/>
+        <r>
+            <strong>Your Post comma-separated list of Tags</strong><br/>
+            <small><em>For a good-formatting avoid to insert tags that start with '#'</em></small><br/>
+            Your tags {{ form.tags }}
+        </r>
+        <button class="btn btn-success">Edit</button>
+    </form>
+{% endblock %}
