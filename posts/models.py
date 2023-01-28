@@ -6,6 +6,7 @@ from django.urls import reverse
 User = settings.AUTH_USER_MODEL
 
 
+
 # Create your models here.
 class Post(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -28,6 +29,7 @@ class Post(models.Model):
 
 	def get_absolute_url(self):
 		return reverse("post_detail", args=[str(self.id)])
+
 
 
 class Comment(models.Model):

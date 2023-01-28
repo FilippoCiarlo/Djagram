@@ -17,6 +17,6 @@ class TestModels(TestCase):
 		############
 
 
-	# __str__ Method
+
 	def test_profile_str_(self):
 		self.assertEqual(str(self.user.profile), f"{ self.user.username } Profile")

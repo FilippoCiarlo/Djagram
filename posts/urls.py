@@ -1,5 +1,4 @@
 from django.urls import path
-
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -12,6 +11,9 @@ from posts.views import like_view
 from posts.views import search_view
 from posts.views import profile_posts_view
 
+
+
+# Urls
 urlpatterns = [
     path('', post_list_view, name="post_list"), 
     path('tag/<slug:tag_slug>/',post_list_view, name="post_list_by_tag"),

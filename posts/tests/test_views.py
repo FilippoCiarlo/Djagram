@@ -64,7 +64,20 @@ class TestViews(TestCase):
 
 
 	# Post List
+	"""
+		Verifica che i post mostrati all'interno della bacheca 
+		di un utente registrato, che non segue nessun altro utente, 
+		siano solato i suoi post.
+	"""
 	def test_post_list_view_NotFollows_Success(self):
+
+		user2 = self.user_not_owner
+		user2_post = Post.objects.create(
+			user=user2,
+			image = self.image_2,
+			description="This is user2 Post description",
+			tags=self.post.tags
+		)
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.post_list_url)
 		self.assertEquals(response.status_code, 200)
@@ -72,8 +85,14 @@ class TestViews(TestCase):
 		# Test HTML code
 		self.assertTemplateUsed(response, "posts/post_list.html")
 		self.assertContains(response, str(self.post.description)) 
+		self.assertNotContains(response, str(user2_post.description)) 
 
 
+	"""
+		Verifica che i post mostrati all'interno della bacheca 
+		di un utente registarto, che segue un'altro utente, 
+		siano i suoi post e quelli dell'utente seguito.
+	"""
 	def test_post_list_view_Follows_Success(self):
 		user2 = self.user_not_owner
 		self.user.profile.follows.add(user2)
@@ -89,9 +108,14 @@ class TestViews(TestCase):
 
 		# Test HTML code
 		self.assertTemplateUsed(response, "posts/post_list.html")
+		self.assertContains(response, str(self.post.description)) 
 		self.assertContains(response, str(user2_post.description)) 
 
 
+	"""
+		Verifica che un utente non-registrato 
+		non abbia accesso alla bacheca dei post.
+	"""
 	def test_post_list_view_Insuccess(self):
 		response = self.client.get(self.post_list_url)
 		self.assertRedirects(
@@ -105,6 +129,10 @@ class TestViews(TestCase):
 
 
 	# Post List by Tag
+	"""
+		Verifica che un utente non-registrato abbia 
+		accesso alla lista dei post aventi uno specifico tag.
+	"""
 	def test_post_list_by_tag_view_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.post_list_by_tag_url)
@@ -115,6 +143,10 @@ class TestViews(TestCase):
 		self.assertContains(response, str(self.post.tags.first())) 
 
 
+	"""
+		Verifica che un utente non-registrato non abbia 
+		accesso alla lista dei post aventi uno specifico tag.
+	"""
 	def test_post_list_by_tag_view_Insuccess(self):
 		response = self.client.get(reverse("post_list_by_tag", args=["non-existent-tag"]))
 		self.assertRedirects(
@@ -126,6 +158,10 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che dato un tag non esistente 
+		venga riornata la pagina di errore 404.
+	"""
 	def test_post_list_by_tag_view_404(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(reverse("post_list_by_tag", args=["non-existent-tag"]))
@@ -134,6 +170,10 @@ class TestViews(TestCase):
 
 
 	# Post Detail
+	"""
+		Verifica che dato un post venga 
+		ritornata la sua vista in dettaglio.
+	"""
 	def test_post_detail_view_Success(self):
 		response = self.client.get(self.post_detail_url)
 		self.assertEquals(response.status_code, 200)
@@ -143,12 +183,20 @@ class TestViews(TestCase):
 		self.assertContains(response, str(self.post.description)) 
 
 
+	"""
+		Verifica che dato un post non esistente 
+		venga ritornata la pagina di errore 404.
+	"""
 	def test_post_detail_view_404(self):
 		# 0 = non existent post-id
 		response = self.client.get(reverse("post_detail", args=[0]))
 		self.assertEquals(response.status_code, 404)
 
 
+	"""
+		Verifica che un utente registrato possa 
+		lasciare un commento sotto un post.
+	"""
 	def test_post_detail_view_Success_LoggedIn_Comment_POST(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.post(self.post_detail_url,
@@ -163,6 +211,10 @@ class TestViews(TestCase):
 		self.assertEqual(len(messages), 0)
 
 
+	"""
+		Verifica che un utente registrato non possa 
+		lasciare un commento vuoto sotto un post.
+	"""
 	def test_post_detail_view_Insuccess_LoggedIn_Comment_POST(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.post(self.post_detail_url,
@@ -180,7 +232,11 @@ class TestViews(TestCase):
 
 
 	# Post Create
-	def test_post_create_view_Success(self):
+	"""
+		Verifica che un utente registrato abbia accesso 
+		alla pagina di creazione di un nuovo post.
+	"""
+	def test_post_create_view_LoggedIn_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.post_create_url)
 		self.assertEquals(response.status_code, 200)
@@ -190,7 +246,11 @@ class TestViews(TestCase):
 		self.assertContains(response, "Create a new Post") 
 
 
-	def test_post_create_view_Insuccess(self):
+	"""
+		Verifica che un utente non-registrato non abbia 
+		accesso alla pagina di creazione di un nuovo post.
+	"""
+	def test_post_create_view_LoggedOut_Insuccess(self):
 		response = self.client.get(self.post_create_url)
 		self.assertRedirects(
 			response, 
@@ -201,6 +261,10 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che un utente registrato 
+		possa creare un nuovo post.
+	"""
 	def test_post_create_view_Success_POST(self):
 		image = self.image_2
 		description = "This is the description for a New Post"
@@ -226,7 +290,11 @@ class TestViews(TestCase):
 
 
 	# Post Update
-	def test_post_update_view_Success(self):
+	"""
+		Verifica che un utente registrato abbia accesso 
+		alla pagina di modifica di un proprio post.
+	"""
+	def test_post_update_view_LoggedIn_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.post_update_url)
 		self.assertEquals(response.status_code, 200)
@@ -236,7 +304,11 @@ class TestViews(TestCase):
 		self.assertContains(response, "Edit Post") 
 
 
-	def test_post_update_view_Insuccess(self):
+	"""
+		Verifica che un utente non-registrato non abbia
+		accesso alla pagina di modifica di un post.
+	"""
+	def test_post_update_view_LoggedOut_Insuccess(self):
 		response = self.client.get(self.post_update_url)
 		self.assertRedirects(
 			response, 
@@ -247,6 +319,10 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che dato un post non esistente
+		venga ritornata la pagina di errore 404.
+	"""
 	def test_post_update_view_404(self):
 		# 0 = non existent post-id
 		self.client.login(username='MarioRossi', password='testpass123')
@@ -254,6 +330,10 @@ class TestViews(TestCase):
 		self.assertEquals(response.status_code, 404)
 
 
+	"""
+		Verifica che un utente registrato 
+		possa modificare un proprio post.
+	"""
 	def test_post_update_view_Success_POST(self):
 		image = self.image_2
 		description = "This is a New Description"
@@ -281,6 +361,10 @@ class TestViews(TestCase):
 		self.assertEqual(str(messages[0]), "Post updated successfully.")
 
 
+	"""
+		Verifica che un utente registrato non possa 
+		modificare un post di un'altro utente.
+	"""
 	def test_post_update_view_Insuccess_POST(self):
 		self.client.login(username='NotPostOwner', password='testpass456')
 		response = self.client.post(self.post_update_url, 
@@ -305,6 +389,10 @@ class TestViews(TestCase):
 
 
 	# Post Delete
+	"""
+		Verifica che un utente registrato abbia accesso
+		alla pagina di cancellazione di un post.
+	"""
 	def test_post_delete_view_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.post_delete_url)
@@ -315,6 +403,10 @@ class TestViews(TestCase):
 		self.assertContains(response, "Delete Post") 
 
 
+	"""
+		Verifica che un utente non-registrato non abbia 
+		accesso alla pagina di cancellazione di un post.
+	"""
 	def test_post_update_view_Insuccess(self):
 		response = self.client.get(self.post_delete_url)
 		self.assertRedirects(
@@ -326,6 +418,10 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che dato un post non esistente
+		venga ritornata la pagina di errore 404.
+	"""
 	def test_post_delete_view_404(self):
 		# 0 = non existent post-id
 		self.client.login(username='MarioRossi', password='testpass123')
@@ -333,6 +429,10 @@ class TestViews(TestCase):
 		self.assertEquals(response.status_code, 404)
 
 
+	"""
+		Verifica che un utente registrato 
+		possa cancellare un proprio post.
+	"""
 	def test_post_delete_view_Success_POST(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.post(self.post_delete_url)
@@ -351,6 +451,10 @@ class TestViews(TestCase):
 		self.assertEqual(str(messages[0]), "The Post it's been deleted successfully.")	
 
 
+	"""
+		Verifica che un utente registrato non possa
+		cancellare un post di un'altro utente.
+	"""
 	def test_post_delete_view_Insuccess_POST(self):
 		self.client.login(username='NotPostOwner', password='testpass456')
 		response = self.client.post(self.post_delete_url)
@@ -369,7 +473,11 @@ class TestViews(TestCase):
 
 
 	# Like 
-	def test_post_like_view_Insuccess(self):
+	"""
+		Verifica che un utente non-registrato non abbia
+		accesso alla funzionalita Like.
+	"""
+	def test_post_like_view_LoggedOut_Insuccess(self):
 		response = self.client.get(self.post_like_url)
 		self.assertRedirects(
 			response, 
@@ -380,6 +488,10 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che dato un post non esistente
+		venga ritornata la pagina di errore 404.
+	"""
 	def test_post_like_view_404(self):
 		# 0 = non existent post-id
 		self.client.login(username='MarioRossi', password='testpass123')
@@ -387,6 +499,10 @@ class TestViews(TestCase):
 		self.assertEquals(response.status_code, 404)
 
 
+	"""
+		Verifica che un utente registrato possa 
+		mettere like ad un post.
+	"""
 	def test_post_like_view_Success_Like_POST(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.post_like_url)
@@ -400,6 +516,10 @@ class TestViews(TestCase):
 		self.assertTrue(self.post.likes.count() == 1)
 
 
+	"""
+		Verifica che un utente registrato possa 
+		togliere like ad un post.
+	"""
 	def test_post_like_view_Success_Unlike_POST(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		self.client.get(self.post_like_url)
@@ -417,6 +537,11 @@ class TestViews(TestCase):
 
 
 	# Search
+	"""
+		Verifica che dato un database adeguatemente popolato per il test
+		la ricerca vada a buon fine e ritorni un Username ed un Tag che 
+		soddisfino la query.
+	"""
 	def test_post_search_view_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		post_search_url = '{url}?{filter}={value}'.format(url=reverse("search_results"),filter="q", value="Mar")
@@ -431,6 +556,10 @@ class TestViews(TestCase):
 		self.assertNotContains(response, "No Posts found.") 
 
 
+	"""
+		Verifica un utente non registarto riceva come
+		risultato della ricerca solo post.
+	"""
 	def test_post_search_LoggedOut_view_Success(self):
 		response = self.client.get(self.post_search_url)
 		self.assertEquals(response.status_code, 200)
@@ -442,6 +571,10 @@ class TestViews(TestCase):
 		self.assertContains(response, "Posts") 
 
 
+	"""
+		Verifica un utente registarto riceva come
+		risultato della ricerca Utenti, Tag e Post.
+	"""
 	def test_post_search_LoggedIn_view_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.post_search_url)
@@ -456,6 +589,10 @@ class TestViews(TestCase):
 
 
 	# Profile
+	"""
+		Verifica un utente registarto abbia accesso
+		alla vista del profilo di un utente.
+	"""
 	def test_profile_view_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.profile_url)
@@ -467,6 +604,10 @@ class TestViews(TestCase):
 		self.assertNotContains(response, "MarioRossi hasn't posted anything yet.") 
 
 
+	"""
+		Verifica un utente non-registarto non abbia 
+		accesso alla vista del profilo di un utente.
+	"""
 	def test_profile_view_Insuccess(self):
 		response = self.client.get(self.profile_url)
 		self.assertRedirects(
@@ -478,6 +619,10 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che dato un utente non esistente
+		venga ritornata la pagine di errore 404.
+	"""
 	def test_profile_view_404(self):
 		# Not-Existent-User = non existent/registered user
 		self.client.login(username='MarioRossi', password='testpass123')
@@ -487,6 +632,10 @@ class TestViews(TestCase):
 
 
 	# Home
+	"""
+		Verifica che dato un utente non-registrato
+		visualizzi la home page in modo corretto
+	"""
 	def test_home_view_LoggedOut_Success(self):
 		response = self.client.get(self.homepage_url)
 		self.assertEquals(response.status_code, 200)
@@ -496,6 +645,11 @@ class TestViews(TestCase):
 		self.assertContains(response, "Take a look to the latest Posts") 
 		self.assertNotContains(response, "Hi MarioRossi!")
 
+
+	"""
+		Verifica che dato un utente registrato
+		visualizzi la home page in modo corretto
+	"""
 	def test_home_view_LoggedIn_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.homepage_url)

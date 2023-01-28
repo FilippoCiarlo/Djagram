@@ -26,8 +26,6 @@ class TestViews(TestCase):
 		self.image_path_2 = join("accounts/tests/test_image_2.jpg")
 		self.image_1 = SimpleUploadedFile(name='test_image.jpg', content=open(self.image_path_1, 'rb').read(), content_type='image/jpg')
 		self.image_2 = SimpleUploadedFile(name='test_image_2.jpg', content=open(self.image_path_2, 'rb').read(), content_type='image/jpg')
-		#self.image_1 = SimpleUploadedFile(name='test_image.jpg', content=b'', content_type='image/jpeg')
-		#self.image_2 = SimpleUploadedFile(name='test_image_2.jpg', content=b'', content_type='image/jpeg')
 		##############
 
 		### Users ###
@@ -67,6 +65,10 @@ class TestViews(TestCase):
 
 
 	# Login
+	"""
+		Verifica che un utente non-loggato
+		abbia accesso alla pagina di login.
+	"""
 	def test_login_LoggedOut_view_Success(self):
 		response = self.client.get(self.accounts_login_url)
 		self.assertEquals(response.status_code, 200)
@@ -76,6 +78,10 @@ class TestViews(TestCase):
 		self.assertContains(response, "Login") 
 
 
+	"""
+		Verifica che un utente gia' loggato
+		non abbia accesso alla pagina di login.
+	"""
 	def test_login_LoggedIn_view_Inuccess(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.accounts_login_url)
@@ -88,6 +94,11 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che il login di un utente registrato
+		vada a buon fine e che questo venga reindirizzato
+		alla bacheca dei post.
+	"""
 	def test_login_view_Success_POST(self):
 		# Correct Credentials
 		response = self.client.post(self.accounts_login_url,
@@ -105,6 +116,10 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che il login di un utente con
+		credenziali errate non vada a buon fine.
+	"""
 	def test_login_view_Insuccess_POST(self):
 		# Incorrect Credentials
 		response = self.client.post(self.accounts_login_url,
@@ -129,6 +144,10 @@ class TestViews(TestCase):
 
 
 	# Logout
+	"""
+		Verifica che un utente gia loggato
+		abbia accesso alla pagina di logout.
+	"""
 	def test_logout_LoggedIn_view_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.accounts_logout_url)
@@ -139,6 +158,10 @@ class TestViews(TestCase):
 		self.assertContains(response, "Logout") 
 
 
+	"""
+		Verifica che un utente non loggato
+		non abbia accesso alla pagina di logout.
+	"""
 	def test_logout_LoggedOut_view_Insuccess(self):
 		response = self.client.get(self.accounts_logout_url)
 		self.assertRedirects(
@@ -150,6 +173,11 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che il logout di un utente loggato
+		vada a buon fine e che questo venga reindirizzato
+		alla pagina di login.
+	"""
 	def test_logout_LoggedIn_view_Success_POST(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.post(self.accounts_logout_url)
@@ -169,6 +197,10 @@ class TestViews(TestCase):
 
 
 	# Signup
+	"""
+		Verifica che un utente non-loggato
+		abbia accesso alla pagina di registrazione.
+	"""
 	def test_signup_LoggedOut_view_Success(self):
 		response = self.client.get(self.accounts_signup_url)
 		self.assertEquals(response.status_code, 200)
@@ -178,6 +210,10 @@ class TestViews(TestCase):
 		self.assertContains(response, "Signup") 
 
 
+	"""
+		Verifica che un utente loggato non abbia 
+		accesso alla pagina di registrazione.
+	"""
 	def test_signup_LoggedIn_view_Insuccess(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.accounts_signup_url)
@@ -195,6 +231,12 @@ class TestViews(TestCase):
 		self.assertEqual(str(messages[0]), "You are already signed up.")	
 
 
+	"""
+		Verifica che la registrazione di un utente
+		non-loggato e non precedentemente-registrato
+		vada a buon fine e che questo venga reindirizzato
+		alla bacheca dei post.
+	"""
 	def test_signup_view_Success_POST(self):
 		response = self.client.post(self.accounts_signup_url,
 			{
@@ -220,6 +262,12 @@ class TestViews(TestCase):
 		self.assertEqual(str(messages[0]), "Your account it's been created successfully.")	
 
 
+	"""
+		Verifica che la registrazione di un utente
+		non-loggato ma precedentemente-registrato
+		non vada a buon fine e che questo venga 
+		reindirizzato alla pagina di registrazione.
+	"""
 	def test_signup_view_Insuccess_POST(self):
 		response = self.client.post(self.accounts_signup_url,
 			{
@@ -247,6 +295,10 @@ class TestViews(TestCase):
 
 
 	# Follow
+	"""
+		Verifica che un utente registrato possa 
+		seguire (Follow) un'altro utente.
+	"""
 	def test_follow_profile_LoggedIn_view_Success_Follow_POST(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.post(self.accounts_follow_url)
@@ -260,6 +312,10 @@ class TestViews(TestCase):
 		self.assertEqual(self.user.profile.follows.count(),1)
 
 
+	"""
+		Verifica che un utente registrato possa smettere
+		di seguire (Unfollow) un'altro utente.
+	"""
 	def test_follow_profile_LoggedIn_view_Success_Unollow_POST(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		self.client.post(self.accounts_follow_url)
@@ -277,6 +333,10 @@ class TestViews(TestCase):
 
 
 	# Edit Profile
+	"""
+		Verifica che un utente registrato abbia accesso
+		alla pagina di modifica delle proprie impostazioni.
+	"""
 	def test_edit_profile_LoggedIn_view_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.accounts_edit_profile_url)
@@ -284,9 +344,14 @@ class TestViews(TestCase):
 
 		# Test HTML code
 		self.assertTemplateUsed(response, "accounts/edit_profile.html")
+		self.assertContains(response, "MarioRossi") 
 		self.assertContains(response, "Profile Info") 
 
 
+	"""
+		Verifica che un utente non-registrato abbia accesso
+		alla pagina di modifica delle impostazioni utente
+	"""
 	def test_edit_profile_LoggedOut_view_Insuccess(self):
 		response = self.client.get(self.accounts_edit_profile_url)
 		self.assertRedirects(
@@ -298,6 +363,10 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che un utente registarto possa modificare
+		le proprie impostazioni.
+	"""
 	def test_edit_profile_view_Success_POST(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.post(self.accounts_edit_profile_url,
@@ -324,6 +393,10 @@ class TestViews(TestCase):
 
 
 	# Delete Profile
+	"""
+		Verifica che un utente registrato abbia accesso
+		alla pagina di cancellazione del proprio account.
+	"""
 	def test_delete_profile_LoggedIn_view_Success(self):
 		self.client.login(username='MarioRossi', password='testpass123')
 		response = self.client.get(self.accounts_delete_profile_url)
@@ -334,6 +407,10 @@ class TestViews(TestCase):
 		self.assertContains(response, "Delete Account") 
 
 
+	"""
+		Verifica che un utente non-registrato non abbia 
+		accesso alla pagina di cancellazione dell'account.
+	"""
 	def test_delete_profile_LoggedOut_view_Insuccess(self):
 		response = self.client.get(self.accounts_delete_profile_url)
 		self.assertRedirects(
@@ -345,6 +422,10 @@ class TestViews(TestCase):
 		)
 
 
+	"""
+		Verifica che un utente registrato possa
+		cancellare il proprio account.
+	"""
 	def test_delete_profile_view_Success_POST(self):
 		username = self.user.username
 		self.client.login(username='MarioRossi', password='testpass123')
