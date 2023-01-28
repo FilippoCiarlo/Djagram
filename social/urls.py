@@ -23,8 +23,7 @@ from posts.views import homepage_view
 from django.utils.translation import gettext_lazy
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),       
-    path('admin-p.a.g.e-h_a_r_d_-to-f-i-n-d/', admin.site.urls),    #Admin Hardening
+    path('admin/', admin.site.urls),       
     path('', homepage_view, name="home"),
     path('posts/', include("posts.urls")),
     path('accounts/', include("accounts.urls")),
