@@ -19,11 +19,13 @@ Run the BASH script present in the project folder:<br/>
 4. Install the dependencies<br/>
 	<code>pip install -r requirements.txt</code>
 
-> To activate the  virtual environment run the following command: 
-> <code>source venv_test/bin/activate</code>
 
-> To deactivate the  virtual environment run the following command: 
-> <code>deactivate</code>
+> To activate the  virtual environment run the following command: <br/>
+	<code>source venv_test/bin/activate</code>
+
+> To deactivate the  virtual environment run the following command: <br/>
+	<code>deactivate</code>
+
 ---
 
 
