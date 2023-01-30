@@ -6,6 +6,7 @@
 {% block content %}
     <img class="rounded-circle" src="{{ post.user.profile.image.url }}" width=20 height=20>
     <a href="{% url 'profile' username=post.user %}"><strong>@{{ post.user }}</strong></a>
+    <br/>
     <img src="{{ post.image.url }}" width=400 height=400>
     <p>
         <em>{{ post.created }}</em>
@@ -19,7 +20,7 @@
             <!---------->
             <br/>
         {% endif %}
-
+        <br/>
         <!-- Tags -->
         {% for tag in post.tags.all %}
             <a href="{% url 'post_list_by_tag' tag_slug=tag.slug %}">
@@ -82,7 +83,7 @@
 
     <!-- Recommendation System -->
     {% if user.is_authenticated %}
-        <h5>Similar posts</h5>
+        <h5>Similar Posts</h5>
         {% for post in similar_posts %}
             <a href="{{ post.get_absolute_url }}">
                 <img src="{{ post.image.url }}" width=200 height=200>   

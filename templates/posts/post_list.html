@@ -11,7 +11,7 @@
         <img class="rounded-circle" src="{{ post.user.profile.image.url }}" width=20 height=20>
         <a href="{% url 'profile' username=post.user %}"><strong>@{{ post.user }}</strong></a>
          - <small><em>{{ post.created }}</em></small>
-
+        <br/>
         <a href="{{ post.get_absolute_url }}"> 
             <img src="{{ post.image.url }}" width=400 height=400>
         </a>
