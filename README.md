@@ -92,9 +92,9 @@ Below are the credentials of registered users, which have been used to simulate 
 |Username|Password|
 |--------|---------|
 |<code>filippociarlo</code>|<code>testpass123</code>|
-|<code>JohnDoe</code>|<code>testpass345</code>|
-|<code>JaneDoe</code>|<code>testpass678</code>|
-|<code><strong>admin</strong></code>|<code><strong>testpass910</strong></code>|
+|<code>JohnDoe</code>|<code>testpass456</code>|
+|<code>JaneDoe</code>|<code>testpass789</code>|
+|<code><strong>admin</strong></code>|<code><strong>testpass101</strong></code>|
 
 
 
