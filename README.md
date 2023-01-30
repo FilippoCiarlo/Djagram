@@ -1,5 +1,5 @@
 # Social
-Instagram inspired website where the photo sharing and the interaction with them are at the core of the website functionalities.
+Instagram inspired website, share your moment with a picture, describe them with a short descriptiona and a serie of tags. Follow the people that you are interested in and leave a comment or a like under their pictures.
 
 ### Setup
 #### 1st Way
@@ -19,9 +19,11 @@ Run the BASH script present in the project folder:<br/>
 4. Install the dependencies<br/>
 	<code>pip install -r requirements.txt</code>
 
-<br/>
-> To activate the  virtual environment run the following command: <code>source venv_test/bin/activate</code>
-> To deactivate the  virtual environment run the following command: <code>deactivate</code>
+> To activate the  virtual environment run the following command: 
+> <code>source venv_test/bin/activate</code>
+
+> To deactivate the  virtual environment run the following command: 
+> <code>deactivate</code>
 ---
 
 
