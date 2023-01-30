@@ -1,19 +1,19 @@
 #!/bin/bash
-echo Project Testing...
+echo Testing the project...
 coverage run --omit='*/venv/*' --omit='*/tests/*'  manage.py test 
-echo ----------------------------------------------- 
-echo
-
-echo Producing the tests\' HTML Report...
-coverage html
 echo ----------------------------------------------- 
 echo
 
 echo Report:
 coverage report 
 
+echo Producing an HTML tested-code coverage report...
+coverage html
+echo ----------------------------------------------- 
+echo
+
 echo Cleaning Test Files...
-python3 cleaning_procedure.py
+python3 ./cleaning_procedure.py
 
 echo Done!
 echo vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
