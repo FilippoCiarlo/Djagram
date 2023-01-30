@@ -21,7 +21,7 @@ Instagram inspired website where the photo sharing and the interaction with them
 
 
 ### Run the Website
-1. Applying unapplied migrations<br/>
+1. Apply the unapplied migrations<br/>
 <code>python3 manage.py migrate</code>
 
 2. Run the local development server<br/>
@@ -32,7 +32,7 @@ Instagram inspired website where the photo sharing and the interaction with them
 ### Run the Tests
 #### 1st Way
 Run the BASH script present in the project folder:<br/>
-<code>bash ./tests_launcher_script.sh</code>
+<code>bash ./project_tests_launcher.sh</code>
 
 The script will execute the following commands:
 > Test all Project<br/>
