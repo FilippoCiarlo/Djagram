@@ -25,7 +25,6 @@ def homepage_view(request):
 	return render(request,"posts/homepage.html", context={"posts":posts})
 
 
-
 @login_required
 def profile_posts_view(request, username):
 	# given a username of an existing user
@@ -41,25 +40,23 @@ def profile_posts_view(request, username):
 	return render(request,"posts/profile_posts.html", context)
 
 
-
 @login_required
 def post_list_view(request, tag_slug=None):
 	user = get_object_or_404(User, username=request.user.username)
-
-	# retrieve the post of the user
-	posts = Post.objects.filter(user=user)
-	
-	# retrieve the posts of the followed people
-	for follow in user.profile.follows.all():
-		posts |= Post.objects.filter(user=follow)
-
-	# Post by Tag
-	# given a tag retrive all the 
-	# post with the given tag
+	posts = Post.objects.all()
 	tag = None
+
 	if tag_slug:
+		# given a tag retrive all the post with the given tag
 		tag = get_object_or_404(Tag, slug=tag_slug)
 		posts = posts.filter(tags__in=[tag])
+	else:
+		# retrieve the post of the user
+		posts = Post.objects.filter(user=user)
+
+		# retrieve the posts of the followed people
+		for follow in user.profile.follows.all():
+			posts |= Post.objects.filter(user=follow)	
 
 	context={
 		"posts": posts,
