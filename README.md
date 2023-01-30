@@ -1,8 +1,12 @@
-
 # Social
 Instagram inspired website where the photo sharing and the interaction with them are at the core of the website functionalities.
 
 ### Setup
+#### 1st Way
+Run the BASH script present in the project folder:<br/>
+<code>bash ./project_setup_launcher.sh</code>
+
+#### 2nd Way
 1. Create a virtual environment<br/>
 	<code>python3 -m venv venv_test</code>
 
@@ -21,6 +25,11 @@ Instagram inspired website where the photo sharing and the interaction with them
 
 
 ### Run the Website
+#### 1st Way
+Run the BASH script present in the project folder:<br/>
+<code>bash ./project_launcher.sh</code>
+
+#### 2nd Way
 1. Apply the unapplied migrations<br/>
 <code>python3 manage.py migrate</code>
 
@@ -82,6 +91,7 @@ Below are the credentials of registered users, which have been used to simulate 
 |<code>JohnDoe</code>|<code>testpass123</code>|
 |<code>JaneDoe</code>|<code>testpass123</code>|
 |<code><strong>filippociarlo</strong></code>|<code><strong>testpass123</strong></code>|
+
 
 
 
