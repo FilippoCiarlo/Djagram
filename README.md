@@ -21,11 +21,14 @@ Run the BASH script present in the project folder:<br/>
 
 
 > To activate the  virtual environment run the following command: <br/>
-	<code>source venv_test/bin/activate</code>
+	<span style="color:green">
+		<code>source venv_test/bin/activate</code>
+	</span>
 
 > To deactivate the  virtual environment run the following command: <br/>
-	<code>deactivate</code>
-
+	<span style="color:red">
+		<code>deactivate</code>
+	</span>
 ---
 
 
