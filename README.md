@@ -57,7 +57,7 @@ Test all Project:<br/>
 - Test <code>posts</code> application<br/>
 <code>python3 manage.py test posts</code>
 
-After running the tests run the source file of the cleaning procedure, present in the project folder, to clean up all media files produced during the tests execution.<br/>
+> After running the tests run the source file of the cleaning procedure, present in the project folder, to clean up all media files produced during the tests execution.<br/>
 <code>python3 ./cleaning_procedure.py</code><br/>
 
 ---
@@ -75,7 +75,7 @@ The code use the following dependencies:
 
 
 ### Test Database
-Below are the credentials of registered users, which have been used to simulate interactions between registered users on the website. The administrator credentials are in <strong>bold</strong>
+Below are the credentials of registered users, which have been used to simulate interactions between registered users on the website. The website administrator credentials are in <strong>bold</strong>.
 
 |Username|Password|
 |--------|---------|
