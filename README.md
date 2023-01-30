@@ -1,7 +1,7 @@
 # Social
-Instagram inspired website, share your moment with a picture, describe them with a short descriptiona and a serie of tags. Follow the people that you are interested in and leave a comment or a like under their pictures.
----
+Instagram inspired website, share your moment with a picture, describe them with a short descriptiona and a serie of tags. Follow the people that you are interested in and leave a comment or a like under their pictures.<br/>
 
+---
 ### Setup
 #### 1st Way
 Run the BASH script present in the project folder:<br/>
