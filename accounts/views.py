@@ -110,6 +110,13 @@ def edit_profile_view(request):
 	if request.method == "POST":
 		user_form = UserUpdateForm(request.POST, instance=user)
 		
+		# check if the email is already taken by another user
+		email = request.POST['email']
+		if User.objects.filter(email=email).exists():
+			form = UserRegisterForm()
+			messages.info(request, ("This email is already in use by another user."))
+			return redirect("edit_profile")
+
 		# delete the old user's profile image
 		# if is not the defualt user image
 		if len(request.FILES) != 0:	
