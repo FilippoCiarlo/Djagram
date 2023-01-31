@@ -9,10 +9,10 @@ Run the BASH script present in the project folder:<br/>
 
 #### 2nd Way
 1. Create a virtual environment<br/>
-	<code>python3 -m venv venv_test</code>
+	<code>python3 -m venv venv</code>
 
 2. Activate the  virtual environment<br/>
-	<code>source venv_test/bin/activate</code>
+	<code>source venv/bin/activate</code>
 
 3. Upgrade the Python package-management system<br/>
 	<code>python3 -m pip install --upgrade pip</code>
@@ -22,8 +22,8 @@ Run the BASH script present in the project folder:<br/>
 
 
 #### Turn ON/OFF the Virtual Environment:
-* 	To activate the  virtual environment run the following command: <code>source venv_test/bin/activate</code>
-*	To deactivate the  virtual environment run the following command: <code>deactivate</code>
+* To activate the  virtual environment run the following command: <code>source venv_test/bin/activate</code>
+* To deactivate the  virtual environment run the following command: <code>deactivate</code>
 ---
 
 
@@ -59,6 +59,8 @@ The script will execute the following commands:
 > Clean all media files produced during the tests execution<br/>
 <code>python3 ./cleaning_procedure.py</code>
 
+<div style="page-break-after: always;"></div>
+
 #### 2nd Way
 Test all Project:<br/>
 <code>python3 manage.py test</code>
@@ -83,6 +85,7 @@ The code use the following dependencies:
 * <code>django-crispy-forms</code>: Makes forms look better
 * <code>crispy-bootstrap5</code>: Provides Bootstrap template pack for <code>django-crispy-forms</code>
 * <code>coverage</code>: Helps tracking the executed code during tests
+
 ---
 
 
@@ -96,7 +99,11 @@ Below are the credentials of registered users, which have been used to simulate 
 |<code>JaneDoe</code>|<code>testpass789</code>|
 |<code><strong>admin</strong></code>|<code><strong>testpass101</strong></code>|
 
+---
 
-
+<span style="color:orange">
+<strong>Note:</strong><br/>
+The project it's been tested using Firefox.
+</span>
 
 
