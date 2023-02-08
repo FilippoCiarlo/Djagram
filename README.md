@@ -1,9 +1,9 @@
 
-<center><img src = "README_img/Djagram_logo.png"></center>
+![Djagram Logo](README_img/Djagram_logo.png)
 <br/>
 Instagram inspired website, share your moment with a picture, describe them with a short descriptiona and a serie of tags. Follow the people that you are interested in and leave a comment or a like under their pictures.
 <br/>
-<center><img src = "README_img/Djagram_homepage.jpg"></center>
+![Djagram Logo](README_img/Djagram_homepage.jpg)
 
 ---
 ### Setup
