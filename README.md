@@ -5,10 +5,10 @@ Instagram inspired website, share your moment with a picture, describe them with
 
 ---
 ### Site Preview
-<center><strong>Homepage</strong></center>
+#### Homepage
 ![Djagram Logo](README_img/Djagram_homepage.jpg)
 <br/><br/>
-<center><strong>User Profile</strong></center>
+#### User Profile
 ![Djagram Logo](README_img/Djagram_profile.jpg)
 
 ---
